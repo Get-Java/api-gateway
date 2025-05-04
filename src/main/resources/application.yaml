@@ -1,0 +1,32 @@
+server:
+  port: 9191
+
+spring:
+  application:
+    name: gateway
+  security:
+    oauth2:
+      client:
+        registration:
+          identity:
+            client-id: gateway-client
+            client-secret: FCGbQPY5J6lf93bSB1iPZQMsYMkX10JK
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/auth/callback/{registrationId}"
+            scope: openid,profile,email
+        provider:
+          identity:
+            issuer-uri: http://localhost:8080/realms/dev
+      resourceserver:
+        jwt:
+          issuer-uri: ${spring.security.oauth2.client.provider.keycloak.issuer-uri}
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
