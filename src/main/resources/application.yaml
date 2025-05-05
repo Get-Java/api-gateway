@@ -9,17 +9,17 @@ spring:
       client:
         registration:
           identity:
-            client-id: gateway-client
-            client-secret: FCGbQPY5J6lf93bSB1iPZQMsYMkX10JK
+            client-id: ${KEYCLOAK_CLIENT_ID}
+            client-secret: ${KEYCLOAK_CLIENT_SECRET}
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/auth/callback/{registrationId}"
             scope: openid,profile,email
         provider:
           identity:
-            issuer-uri: http://localhost:8080/realms/dev
+            issuer-uri: ${KEYCLOAK_ISSUER_URI}
       resourceserver:
         jwt:
-          issuer-uri: ${spring.security.oauth2.client.provider.keycloak.issuer-uri}
+          issuer-uri: ${spring.security.oauth2.client.provider.identity.issuer-uri}
   cloud:
     gateway:
       discovery:
@@ -29,4 +29,6 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_URI}
+  instance:
+    preferIpAddress: true
